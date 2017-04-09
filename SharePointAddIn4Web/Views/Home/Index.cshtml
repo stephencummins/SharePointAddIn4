@@ -1,0 +1,27 @@
+﻿<h1 class="jumbotron">Welcome, <span id="currentUser"></span></h1>
+
+@section scripts {
+    <script>
+
+        (function () {
+            "use strict";
+
+            jQuery(function () {
+
+            jQuery.ajax({
+                url: "../api/Welcome",
+                type: "GET",
+                headers: {
+                    "accept": "application/json",
+                },
+                success: function (data, status, jqXHR) {
+                    jQuery("#currentUser").text(data);
+                },
+                error: function (jqXHR, status, message) {
+                    alert(JSON.stringify(jqXHR));
+                }
+            });
+        });
+        }());
+    </script>
+}
