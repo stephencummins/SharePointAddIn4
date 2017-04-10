@@ -8,7 +8,7 @@
 >
   <Properties>
     <Title>SharePointAddIn4</Title>
-    <StartPage>~remoteAppUrl/?{StandardTokens}</StartPage>
+    <StartPage>https://ce-app-dev.azurewebsites.net?{StandardTokens}</StartPage>
   </Properties>
 
   <AppPrincipal>
