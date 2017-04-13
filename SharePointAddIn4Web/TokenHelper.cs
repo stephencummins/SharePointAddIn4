@@ -1,5 +1,4 @@
 using Microsoft.IdentityModel;
-using Microsoft.IdentityModel.SecurityTokenService;
 using Microsoft.IdentityModel.S2S.Protocols.OAuth2;
 using Microsoft.IdentityModel.S2S.Tokens;
 using Microsoft.SharePoint.Client;
@@ -214,26 +213,6 @@ namespace SharePointAddIn4Web
                 oauth2Response =
                     client.Issue(AcsMetadataParser.GetStsUrl(targetRealm), oauth2Request) as OAuth2AccessTokenResponse;
             }
-            catch (RequestFailedException)
-            {
-                if (!string.IsNullOrEmpty(SecondaryClientSecret))
-                {
-                    oauth2Request =
-                    OAuth2MessageFactory.CreateAccessTokenRequestWithAuthorizationCode(
-                        clientId,
-                        SecondaryClientSecret,
-                        authorizationCode,
-                        redirectUri,
-                        resource);
-
-                    oauth2Response =
-                        client.Issue(AcsMetadataParser.GetStsUrl(targetRealm), oauth2Request) as OAuth2AccessTokenResponse;
-                }
-                else
-                {
-                    throw;
-                }
-            }
             catch (WebException wex)
             {
                 using (StreamReader sr = new StreamReader(wex.Response.GetResponseStream()))
@@ -279,19 +258,6 @@ namespace SharePointAddIn4Web
             {
                 oauth2Response =
                     client.Issue(AcsMetadataParser.GetStsUrl(targetRealm), oauth2Request) as OAuth2AccessTokenResponse;
-            }
-            catch (RequestFailedException)
-            {
-                if (!string.IsNullOrEmpty(SecondaryClientSecret))
-                {
-                    oauth2Request = OAuth2MessageFactory.CreateAccessTokenRequestWithRefreshToken(clientId, SecondaryClientSecret, refreshToken, resource);
-                    oauth2Response =
-                        client.Issue(AcsMetadataParser.GetStsUrl(targetRealm), oauth2Request) as OAuth2AccessTokenResponse;
-                }
-                else
-                {
-                    throw;
-                }
             }
             catch (WebException wex)
             {
@@ -339,21 +305,6 @@ namespace SharePointAddIn4Web
             {
                 oauth2Response =
                     client.Issue(AcsMetadataParser.GetStsUrl(targetRealm), oauth2Request) as OAuth2AccessTokenResponse;
-            }
-            catch (RequestFailedException)
-            {
-                if (!string.IsNullOrEmpty(SecondaryClientSecret))
-                {
-                    oauth2Request = OAuth2MessageFactory.CreateAccessTokenRequestWithClientCredentials(clientId, SecondaryClientSecret, resource);
-                    oauth2Request.Resource = resource;
-
-                    oauth2Response =
-                        client.Issue(AcsMetadataParser.GetStsUrl(targetRealm), oauth2Request) as OAuth2AccessTokenResponse;
-                }
-                else
-                {
-                    throw;
-                }
             }
             catch (WebException wex)
             {
